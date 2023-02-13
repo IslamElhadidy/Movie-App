@@ -1,24 +1,65 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from './Components/Header';
+import MoviesList from './Components/MoviesList';
+import Footer from './Components/Footer';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MovieDetails from './Components/MovieDetails';
 
 function App() {
+
+  const [movies , setMovies] = useState([])
+  // داله عرض الافلام من ال api
+  const getMovies = async () => {
+      const response = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=52ef927bbeb21980cd91386a29403c78&language=ar`);
+      setMovies(response.data.results)
+  }
+
+  useEffect(() => {
+    getMovies()
+  } ,[])
+
+
+  // داله البحث
+  const search = async (keyword) => {
+    if (keyword === '') {
+      getMovies()
+    } else {
+        const response = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=52ef927bbeb21980cd91386a29403c78&language=ar&query=${keyword}`);
+        setMovies(response.data.results)
+    }
+}
+
+
+
+  const getPage = async (page) => {
+  const response = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=52ef927bbeb21980cd91386a29403c78&language=ar&page=${page}`);
+  setMovies(response.data.results)
+}
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    < >
+
+      <Header className="" search={search}/>
+
+
+      <BrowserRouter>
+
+        <Routes> 
+          <Route path='/' element={<MoviesList movies={movies} getPage={getPage}/>}/>
+          <Route path='/movie/:id' element={<MovieDetails/>}/>
+        </Routes>
+
+      </BrowserRouter>
+
+
+
+
+      <Footer/>
+      
+    </>
   );
 }
 

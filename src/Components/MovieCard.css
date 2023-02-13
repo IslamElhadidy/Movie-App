@@ -1,0 +1,36 @@
+.film-img {
+    width: 100%;
+    height: 300px;
+    border-radius: 20px 0 20px 0 ;
+}
+@media (max-width:991px) {
+    .film-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px 0 20px 0 ;
+    }
+}
+@media (max-width:767px) {
+    .film-img {
+        width: 100%;
+        height:300px;
+        border-radius: 20px 0 20px 0 ;
+    }
+}
+
+h3,
+.h3 {
+    font-size: 20px !important;
+    color: rgb(150, 144, 144);
+    padding-top: 10px;
+
+}
+
+@media (max-width:991px) {
+    h3 {
+        font-size: 15px;
+        color: rgb(150, 144, 144)
+    
+    }
+}
+
